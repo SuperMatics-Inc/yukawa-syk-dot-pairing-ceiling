@@ -1,0 +1,42 @@
+cff-version: 1.2.0
+message: Please cite the preprint and this replay supplement.
+title: 'Replay supplement for A sharp bound on pair formation in the Yukawa-SYK dot'
+authors:
+  - family-names: Rens
+    given-names: Davis
+    affiliation: SuperMatics Inc.
+    orcid: 'https://orcid.org/0000-0001-5839-5197'
+doi: 10.5281/zenodo.24371782
+version: 1.0.0
+license: Apache-2.0
+references:
+  - type: article
+    status: preprint
+    title: 'A sharp bound on pair formation in the Yukawa-SYK dot'
+    authors:
+      - family-names: Rens
+        given-names: Davis
+        affiliation: SuperMatics Inc.
+        orcid: 'https://orcid.org/0000-0001-5839-5197'
+    year: 2026
+    doi: 10.5281/zenodo.24371778
+  - type: article
+    status: preprint
+    title: 'A sharp bound on pair formation in the continuum Yukawa-SYK saddle'
+    authors:
+      - family-names: Rens
+        given-names: Davis
+        affiliation: SuperMatics Inc.
+        orcid: 'https://orcid.org/0000-0001-5839-5197'
+    year: 2026
+    doi: 10.5281/zenodo.24366469
+  - type: software
+    title: 'Certified Eliashberg gamma-model linear-instability constants: replay certificate'
+    authors:
+      - family-names: Rens
+        given-names: Davis
+        affiliation: SuperMatics Inc.
+        orcid: 'https://orcid.org/0000-0001-5839-5197'
+    version: 1.0.0
+    year: 2026
+    doi: 10.5281/zenodo.24366341

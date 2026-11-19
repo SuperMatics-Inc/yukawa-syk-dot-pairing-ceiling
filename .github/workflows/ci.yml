@@ -1,0 +1,67 @@
+name: replay-and-paper
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Source manifest
+        run: sha256sum -c MANIFEST.sha256
+      - name: Install pinned replay dependencies
+        run: python -m pip install --disable-pip-version-check python-flint==0.9.0 numpy==2.5.5 scipy==1.18.1
+      - name: Exact replay and refusal mutants
+        run: python -B replay/run.py
+      - name: Check prose punctuation
+        run: |
+          if grep -n -E '—|---' paper/main.tex paper/refs.bib; then exit 1; fi
+          if grep -n '—' README.md CITATION.cff replay/README.md replay/gamma-two.md replay/flavor/RIGOR.md; then exit 1; fi
+  lean:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: leanprover/lean-action@v1
+        with:
+          lake-package-directory: lean
+          use-github-cache: false
+          build: false
+      - name: Check finite Lean identities
+        working-directory: lean
+        run: |
+          lake exe cache get
+          lake env lean ../replay/FiniteCore.lean
+          lake env lean ../replay/flavor/FiniteCore.lean
+  paper:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install TeX and poppler
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends texlive-latex-base texlive-latex-recommended texlive-fonts-recommended poppler-utils
+      - name: Build the manuscript
+        working-directory: paper
+        run: |
+          set -euo pipefail
+          pdflatex -interaction=nonstopmode -halt-on-error main.tex
+          bibtex main
+          pdflatex -interaction=nonstopmode -halt-on-error main.tex
+          pdflatex -interaction=nonstopmode -halt-on-error main.tex
+          if grep -n -E 'Overfull \\[hv]box|LaTeX Warning: (Reference|Citation).*undefined|There were undefined references|Label\(s\) may have changed' main.log; then exit 1; fi
+          pdfinfo -url main.pdf > urls.txt
+          grep -qF 'https://github.com/SuperMatics-Inc/yukawa-syk-dot-pairing-ceiling' urls.txt
+          grep -qF 'https://doi.org/10.5281/zenodo.24371778' urls.txt
+          grep -qF 'https://doi.org/10.5281/zenodo.24371782' urls.txt
+          test -s main.pdf
+      - uses: actions/upload-artifact@v4
+        with:
+          name: yukawa-syk-dot-paper
+          path: paper/main.pdf
+          if-no-files-found: error

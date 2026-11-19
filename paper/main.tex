@@ -1,0 +1,250 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,hyperref,booktabs}
+\newtheorem{theorem}{Theorem}
+\newcommand{\DOTDOI}{\href{https://doi.org/10.5281/zenodo.24371778}{10.5281/zenodo.24371778}}
+\newcommand{\DOTSUPPDOI}{\href{https://doi.org/10.5281/zenodo.24371782}{10.5281/zenodo.24371782}}
+\newcommand{\DOTREPO}{\url{https://github.com/SuperMatics-Inc/yukawa-syk-dot-pairing-ceiling}}
+\newcommand{\spec}{\operatorname{spec}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\lin}{\mathrm{lin}}
+\title{A sharp bound on pair formation in the Yukawa--SYK dot}
+\author{Davis Rens\\SuperMatics Inc.\\\href{https://orcid.org/0000-0001-5839-5197}{ORCID 0000-0001-5839-5197}}
+\date{November 2026}
+\begin{document}
+\maketitle
+\begin{abstract}
+Esterlis and Schmalian found that the normal-state pairing instability of the equal-flavor Yukawa--SYK dot saturates at strong coupling. We prove that its limiting temperature is a strict upper bound at every positive finite coupling. The result is for the centered causal large-$N$ saddle with real Yukawa couplings, and includes the full phonon polarization. It bounds the highest linear instability over these saddles, not a first-order transition. The comparison is with the infinite $\gamma=2$ Eliashberg operator. An analytic estimate treats arbitrarily large static widths, and an interval calculation excludes instability on the remaining compact domain without tracing a particular normal branch. The coefficient of the bare oscillator energy lies between $0.1118965174138946$ and $0.1118965174138948$.
+\end{abstract}
+
+\section{Statement and model}
+Strong-coupling saturation does not by itself exclude a higher pair-formation temperature at intermediate coupling. This distinction matters in a dot, where the electronic band is a single level and a bound using the height of a density of states is vacuous. The equal-flavor result below identifies the strong-coupling limit as an upper bound, not just an asymptote. The factor $3/8$ in that limit and the limiting eigenproblem are due to Esterlis and Schmalian \cite[Eq.~(35)--(37)]{ES}. The proof here controls the approach to the limit and excludes overshoot. The companion continuum result \cite{Continuum} instead compares directly with a $\gamma=1$ transfer. That comparison is not used here: the effective dot transfer at finite coupling need not lie below its limit frequency by frequency.
+
+Use energy units $\tau=k_BT$, $\omega_n=\pi\tau(2n+1)$ and $\nu_j=2\pi\tau j$. The positive coordinate propagator has bare value $(\nu_j^2+\Omega_0^2)^{-1}$, where $\Omega_0>0$ is the bare oscillator energy. At zero chemical potential the centered normal and linearized anomalous equations are
+\begin{equation}\label{eq:saddle}
+\begin{aligned}
+ G_n&=(i\omega_n-\Sigma_n)^{-1},&\Sigma_n&=a\tau\sum_m D_{n-m}G_m,\\
+ D_j^{-1}&=\nu_j^2+\Omega_0^2-\Pi_j,&\Pi_j&=-b\tau\sum_mG_mG_{m+j},\\
+ \Phi_n&=a\tau\sum_m D_{n-m}|G_m|^2\Phi_m.&&
+\end{aligned}
+\end{equation}
+Sums on the full line are over the integers. The coefficient $a>0$ is the variance coefficient in the normal and time-reversed singlet equations; $b=ra$ includes the spin trace and the flavor ratio. Both have units of energy cubed. Equal electronic and phonon flavor counts give $r=2$ in this convention. Only the real-coupling, non-pair-breaking channel is considered \cite{ES,Hauck}. The neutral self-energies have no term linear in the charged pairing field. Take the large-$N$ limit first; no small ratio of a phonon energy to an electronic scale is assumed.
+
+An eligible normal state is centered ($G_{-n-1}=\overline{G_n}=-G_n$), with canonical causal electronic and positive coordinate phonon spectral measures and $0<D_0<\infty$. Define $\tau_{\lin}=k_BT_{\lin}$ to be the supremum of temperatures in energy units at which at least one such state has a linearized pairing eigenvalue at or above one, using zero if the set is empty. This definition does not select the thermodynamically preferred saddle. Put $w_n=2n+1$ on $n\ge0$ and define the compact self-adjoint operator
+\begin{equation}\label{eq:gamma}
+ A_{nm}=\frac{(1-\delta_{nm})|n-m|^{-2}+(n+m+1)^{-2}}{\sqrt{w_nw_m}}-\delta_{nm}\frac{2H_n}{w_n},\qquad H_n=\sum_{j=1}^{n}j^{-2},
+\end{equation}
+where the Toeplitz diagonal is omitted. Let $\rho=\sup\spec A$, $\kappa=1/\rho$, and $C_\infty=\sqrt{\rho}/(2\pi)$. The enclosure of $C_\infty$ uses the $\gamma=2$ part of the separate certificate \cite{GammaCert}; its analytic tail estimates and finite interval calculation are specified in the companion replay.
+
+\begin{theorem}\label{thm:main}
+For the centered causal equal-flavor dot in \eqref{eq:saddle}, at every $0<a<\infty$,
+\[
+ \tau_{\lin}<\tau_*:=C_\infty\sqrt{3/8}\,\Omega_0,
+ \qquad \lim_{a\to\infty}\tau_{\lin}=\tau_*.
+\]
+This is an exact statement about the normal-saddle linear instability, with computer-assisted finite inequalities. It is not an upper bound on a discontinuous transition, a noncentered saddle or a finite-$N$ transition.
+\end{theorem}
+
+\noindent\textbf{Flavor interval (certified).} With the same centered causal normal-state hypotheses and real singlet channel, the bound holds for $r=b/a\in[99/50,101/50]$ only: at every finite $a>0$ and fixed $\Omega_0>0$, $\tau_{\lin}<C_\infty\sqrt{3/(4r)}\,\Omega_0$, with equality in the limit $a\to\infty$. An all-coupling upper bound at general $r$ is not claimed. The finite-width interval strips enclose the closed ratio interval at once, the weak- and wide-width estimates use its rational endpoints, and the finite rational lemmas are checked in Lean~4; the proof and replay are in the companion's \texttt{flavor/} directory. As in the theorem, $N\to\infty$ first; this is not a bound on a discontinuous, noncentered or finite-$N$ transition.
+
+\section{Elimination of the static transfer}
+Set $E=\pi\tau$, $B=a\tau/E^4$, $d_j=E^2D_j$, $h_n=-E\Im G_n=1/U_n>0$ for $n\ge0$, and write $H$ for the signed full-line reflection of $h$ about $-1/2$ (distinct from the harmonic sums $H_n$). Use
+\[
+ \sigma=\sqrt{Bd_0},\quad \epsilon=1/\sigma,\quad p=B/\sigma,\quad q_n=\sigma h_n,\quad Q=\sigma H,\quad m=\frac{\Omega_0^2}{rE^2},\quad K_j=pd_j\ (j\ge1).
+\]
+The difference of two bubbles is exactly $rB(\|H\|^2-\langle H,S_jH\rangle)=(rB/2)\|H-S_jH\|^2$, where $S_j$ shifts the full-line sequence. Thus
+\begin{equation}\label{eq:scaled}
+\begin{aligned}
+ d_j^{-1}&=4j^2+p\epsilon+\frac{rp\epsilon}{2}\|Q-S_jQ\|^2, &
+ m&=p\epsilon/r+2p\epsilon\sum_{n\ge0}q_n^2,\\
+ q_n&=t\big(\epsilon(w_n+J_n)\big), &
+ J_n&=\sum_{j\ge1}K_j(Q_{n+j}+Q_{n-j}),\quad t(x)=\frac{\sqrt{x^2+4}-x}{2}.
+\end{aligned}
+\end{equation}
+Indeed the last line solves $U_n-\sigma^2/U_n=w_n+J_n$. In the static equation the first term has a positive sign: it is the remaining dressed inverse susceptibility. Canonical spectral mass gives $h_n\le1/w_n$ and absolute convergence of the bubbles. Shifted overlaps of an $\ell^2$ sequence vanish at infinity, so $\Pi_j\to0$. Dyson's equation gives $\lim\nu_j^2D_j=1$. Consequently the positive Stieltjes measure in $D(i\nu)=\int(\nu^2+x)^{-1}\,d\mu_D(x)$ has mass one, by monotone convergence. In particular, for $0<l<h$,
+\begin{equation}\label{eq:stiel}
+ 0\le d_l-d_h\le\tfrac14(l^{-2}-h^{-2}),\qquad 0<d_j\le(4j^2)^{-1}.
+\end{equation}
+The difference bound follows by subtracting the two positive resolvents under the integral. These bounds do not replace the true transfer by a bare oscillator.
+
+The symmetrized full-line pairing matrix has positive entries and commutes with reflection; its largest eigenvalue is attained in the reflection-even sector. Folding gives $B\,h_n(d_{|n-m|}+d_{n+m+1})h_m$. Congruencing one minus this operator by the diagonal $1/\sqrt{w_n h_n}$ and using the normal equation cancels $d_0$ exactly. This diagonal and its inverse are bounded at a fixed state, since the normal equation gives $U_n=w_n+O(1)$. The resulting operator is $I-S$, where, with $P_{nm}=K_{|n-m|}-K_{n+m+1}$ for $n\ne m$,
+\begin{equation}\label{eq:pair}
+ \begin{aligned}
+ S_{nm}&=(K_{|n-m|}+K_{n+m+1})\sqrt{q_nq_m/(w_nw_m)}\quad(n\ne m),\\
+ S_{nn}&=\frac{2K_{w_n}q_n-\sum_{m\ne n}P_{nm}q_m}{w_n}.
+ \end{aligned}
+\end{equation}
+The diagonal Hankel transfer is not a zero transfer. The positive off-diagonal envelopes have summable squares by grouping by difference and sum, and the diagonal vanishes at infinity. Thus $S$ is compact and its spectral top is strictly below one exactly when the linearized state is strictly stable. The same compactness argument applies to \eqref{eq:gamma}.
+
+At $r=2$ and $\tau\ge\tau_*$, the static mass satisfies $m\le16\kappa/3$. Three regions suffice. The next section states the short weak-width estimate and the domains of the other two estimates. Appendices give their analytic and interval details.
+
+\section{Excluding pairing above the plateau}
+First, $B\le25/13$ suffices at any width. In the quadratic form of $S$, replace the off-diagonal Toeplitz-plus-Hankel term by $P_{nm}+2K_{n+m+1}$. The contribution of the first part together with the negative diagonal in \eqref{eq:pair} is precisely
+\[
+ -\sum_{n<m}P_{nm}\left(\sqrt{q_m/w_n}\,x_n-\sqrt{q_n/w_m}\,x_m\right)^2\le0.
+\]
+For complex sequences replace the square by a modulus squared. Since $K_jq_n=pd_j\sigma h_n=Bd_jh_n$, Schur weights $1/w_n$ bound the remaining Hankel top by
+\[
+ \frac{B}{2}\sum_{m\ge0}\frac1{(m+1)^2(2m+1)^2}<\frac{B}{2}\frac{26}{25}.
+\]
+The first three terms are $1,1/36,1/225$; using $2j-1\ge7j/4$ for $j\ge4$ bounds the remainder by $16/(49\cdot81)$. This strict estimate applies also for arbitrary positive $r$.
+
+Next, Appendix~\ref{app:wide} proves stability at all widths $\sigma\ge180$ with $m\le16\kappa/3$. Appendix~\ref{app:cover} and the replay exclude the strip $15/32\le\sigma\le180$. These regions cover the problem: at $r=2$ the positive static mass term gives $B\le2m\sigma^2$. If $m\le16\kappa/3<4.046104720$ and $\sigma\le15/32$, then $B<25/13$. Thus there is no linear instability at any $\tau\ge\tau_*$.
+
+The exclusion is strict for the supremum as well. Fix $a>0$ and consider any sequence of eligible states with $\tau\to\tau_*$. Along it $B$ remains bounded above and below. The static equation bounds $\sigma$ away from zero, and if $\sigma\to\infty$ then $q_n^2\le1+B/(4\sigma^2)$ (proved below) would give $h_n\to0$ at every $n$. Since $h_n\le1/w_n$, dominated convergence in $m=B/(2\sigma^2)+2B\sum h_n^2$ would give $m\to0$, a contradiction. Take a convergent subsequence of widths and of every individual $h_n,d_j$. The bounds in \eqref{eq:stiel}, the scaled equations, the static equation and the causal bound pass to the limit by summable domination. These are the only properties the exclusions require. Moreover $S$ converges in operator norm by the same off-diagonal and diagonal bounds used for compactness. Its limiting top is strictly below one, so no unstable sequence can approach $\tau_*$ from below.
+
+\section{Attainment in the strong-coupling limit}\label{sec:limit}
+At fixed $r>0$ and $\tau>0$, let $B\to\infty$. Write $h_*=\sup_n h_n$. The static mass bounds it by $\sqrt{m/(2B)}$. The full nonstatic normal sum is bounded in modulus by $R=(5/6)Bh_*$, by \eqref{eq:stiel} and $\sum j^{-2}<5/3$. The positive root gives $h_n\ge1/(w_n+\sigma+R)$. An integral lower bound for its square gives $B\le m(1+\sigma+R)$, hence $\sigma\gtrsim B$ and $p$ stays bounded. Therefore $J_n$ is bounded (use $q_n^2\le1+B/(4\sigma^2)$). Uniformly in $n$,
+\[
+ q_n=t(\epsilon w_n)+O\big(\epsilon/(1+\epsilon w_n)^2\big).
+\]
+This follows from $|t'|=t^2/(1+t^2)$ and a bounded shift of size $O(\epsilon)$ in its argument. The midpoint Riemann sum of $t^2$ tends to $4/3$, as is seen by $x=2\sinh v$. The signed static sequence $t(\epsilon w_n)$ has supremum at most one and total variation at most four on the full line. Its squared difference with its $j$-shift is at most $8j$. The squared $\ell^2$ norm of the error from replacing $Q$ by that sequence is $O(\epsilon)$. Thus for fixed $j$ the last term in the first line of \eqref{eq:scaled} tends to zero. We have $K_j\to(3m/16)j^{-2}$ and $q_n\to1$ for each fixed index. Uniform transfer and weight envelopes, with diagonal tails bounded by $O(1/w_n)$, give operator norm convergence to $(3m/16)A$. Its top is $(\tau_*/\tau)^2$ at $r=2$. At each fixed $\tau<\tau_*$ this exceeds one. Appendix~\ref{app:exist} supplies a centered normal state at that temperature for each $a$, and the convergence applies to every such choice. This proves the matching lower limit in Theorem~\ref{thm:main}. For arbitrary fixed $r>0$, the proof gives the operator limit at fixed $\tau$ and $\liminf_{a\to\infty} k_BT_{\rm lin}\ge C_\infty\sqrt{3/(4r)}\,\Omega_0$. We do not claim an upper bound here that rules out unstable $\tau(a)$ escaping to infinity at general $r$.
+
+\appendix
+\section{Wide-state comparison}\label{app:wide}
+In this appendix $r=2$, $m\le16\kappa/3<304/75$, and initially $\epsilon\le1/100$. Set $\alpha=p/4$, $A_*=4/5$, and write $\zeta_s=\sum_{j\ge1}j^{-s}$. All scalar guards used below have rational or Arb checks in \texttt{replay.py}. The few trial-vector bounds concern the infinite operator \eqref{eq:gamma}, not a truncated normal saddle.
+
+\paragraph{Static mass.}
+Folding $J_n$ gives $-K_{w_n}q_n+\sum_{m\ne n}P_{nm}q_m$. Hence $q_n^2\le(1-\epsilon K_1)^{-1}\le1+p\epsilon/4$, since $d_1\le(4+p\epsilon)^{-1}$; these bounds hold at every width. First $p\epsilon\le2m$ gives $q_n<2$ and $|J_n|\le(5/3)p$. The lower bound $t(x)\ge(1+x)^{-1}$ at $x\ge0$ and the integral test in the mass sum yield $m\ge p/[1+\epsilon+(5/3)p\epsilon]$, hence $p<9/2$. It follows that $q_n<101/100$, $|J_n|<4$. With $f=t^2$, the midpoint bound gives $2\epsilon\sum q_n^2\ge4/3-4\epsilon-\epsilon^2/2$ and then $p<16/5$. The midpoint error for cells of length $2\epsilon$ is at most $(\epsilon^2/2)\int |f''|\le\epsilon^2/2$ on the nonnegative half-line, by convexity, $-f'(0)=1$, and the integrated Taylor remainder. Since $w_n+J_n\ge1-(4/5)(101/100)>0$, now $q_n\le1$.
+
+The Toeplitz sequence with value zero at transfer zero and $K_j$ elsewhere has negative forward variation $2K_1$. In the folded $J_n$ its forward increment is therefore bounded below by $-2K_1$ against $0\le q_n\le1$. The negative Hankel term increases with $n$, so $w_n+J_n$ increases. Its normal roots decrease, with $0\le q_n-q_{n+1}\le\epsilon(1+2K_1)$, using full-line variation $4K_1$ and $|t'|\le1/2$ for positive arguments. The terms $j>n$ of $J_n$ are then nonpositive. In particular $J_n\le2\alpha H_n$ and
+\begin{equation}\label{eq:weight}
+ 0\le1-q_n\le\epsilon b_n,\qquad b_n=w_n/2+A_*H_n,\qquad b_n/w_n\le23/30.
+\end{equation}
+For the last inequality check $n=0,1,2$ and use $\zeta_2<5/3$ for $n\ge3$.
+
+To improve the mass estimate write $T_n=t(\epsilon w_n)$. Then $|q_n-T_n|\le(4/3)\epsilon$, using $|J_n|\le(5/6)p$ and the Lipschitz bound for $t$. For $j\le n$, $T_{n+j}+T_{n-j}-2T_n\le\min(\epsilon^2j^2,2)$ by $0\le t''\le1/4$. Summing with $K_j\le\alpha/j^2$, splitting at $\lfloor1/\epsilon\rfloor$ and dropping the nonpositive $j>n$ pairs yields $J_n\le(5/6)pT_n+6\epsilon$. The tangent lower bound for convex $f$ gives
+\[
+ q_n^2\ge f(\epsilon w_n)-\epsilon[(5/6)pT_n+6\epsilon][-f'(\epsilon w_n)].
+\]
+The functions $-f'$ and $-tf'$ decrease from one and have integrals 1 and $2/3$. The midpoint sum of a positive decreasing function is at most its integral plus $\epsilon$ times its initial value. Together with the midpoint error for $f$ this gives $2\epsilon\sum q_n^2\ge4/3-(5p/9)\epsilon-10\epsilon^2$. The positive static term now gives
+\begin{equation}\label{eq:mass}
+ m\ge \frac43p\big[1-(23/24)\epsilon-(15/2)\epsilon^2\big]
+ \qquad(\epsilon\le1/100).
+\end{equation}
+
+\paragraph{Projected comparison.}
+Let $z$ be the positive unit top eigenvector of $A$, $\Delta=S-\alpha A$, $K^0_j=\alpha/j^2$, and $P^0_{nm}=\alpha(|n-m|^{-2}-(n+m+1)^{-2})$. The compression of $A$ to $n\ge1$ has spectral top at most $1/10$, by Schur weights $1/\sqrt{w_n}$. Its weighted signed row sums are $(2\zeta_2-2H_n-n^{-2}-(n+1)^{-2})/w_n$; use $\zeta_2<5/3$ for $n=1,2$ and $\zeta_2-H_n\le1/n$ otherwise. The same bound holds for the second spectral value. The trial lower bound on $\rho$ below exceeds this compression bound. To see the positivity needed for transfer contractions, let $y_n=z_n/\sqrt{w_n}$, and put $v_0=1$, $v_j=v_{-j}=j^{-2}$. The top equation for $y$ is the convolution of $v$ with the even extension of $y$, divided by $1+\rho w_n+2H_n$. The corresponding symmetric matrix is compact and strictly positive entrywise, has top one by congruence, and a simple strictly positive top eigenvector by the Rayleigh principle. Replacing vectors by their moduli also excludes an eigenvalue $-1$. Starting positive iteration at $e_0$ preserves decrease in $n$: the even extension of a decreasing nonnegative sequence is a nonnegative sum of indicators of $[-j-1,j]$, each of whose convolutions with $v$ decreases on $n\ge0$. The denominator increases. The spectral gap of the symmetric iteration implies convergence to the top eigenvector, so $y$ itself decreases. Consequently the derivative coefficient in one transfer $j$ is
+\[
+ c_j=2\sum_{n\ge j}y_n(y_{n-j}-y_n)+\sum_{n=0}^{j-1}y_ny_{j-1-n}\ge0.
+\]
+
+There are $j$ crossed squares in $\|Q-S_jQ\|^2$, contributing at most $4j$. The same-sign differences have absolute sum at most $2j$ by telescoping, and maximum at most $(13/5)\epsilon j$ by the adjacent bound. Hence \eqref{eq:scaled} gives
+\[
+ 0\le K_j^0-K_j\le\epsilon D_j^*,\qquad D_j^*=A_*^2\big(j^{-4}+4j^{-3}+(26/500)j^{-2}\big).
+\]
+For the transfer contribution $\mathcal A(K)-\alpha A$, where $\mathcal A$ replaces $j^{-2}$ by the supplied transfer in \eqref{eq:gamma}, each unit-transfer operator has norm at most two by absolute Schur weights $w_n^{-1/2}$. Thus its norm difference is at most $2\epsilon\sum_j D_j^*$. For the weight contribution $S-\mathcal A(K)$ use $1-\sqrt{q_nq_m}\le\epsilon(b_n+b_m)$ and $(w_n+w_m)/\sqrt{w_nw_m}\le\sqrt{3j}+1$ for either relevant transfer $j$. The absolute off-diagonal row sum is bounded by $2\epsilon A_*(23/30)(\sqrt3\zeta_{3/2}+\zeta_2)$. The absolute diagonal bound is $\epsilon A_*(23/30)(2\zeta_2+1)$, using the opposite signs of its two terms and $\sum_{m\ne n}P^0_{nm}w_m=\alpha(2\zeta_2+w_n^{-2})w_n$. This identity follows by pairing upward and downward Toeplitz weights for $j\le n$ and subtracting the Hankel weight for $j>n$. Using $\zeta_{3/2}\le3$, $\zeta_3<121/100$ and $\zeta_4<11/10$ gives $\|\Delta\|<19\epsilon$.
+
+The sharper estimate $\|\Delta z\|<7\epsilon$ is certified as follows. The replay proposes rational coordinates $y_i^{(v)}\ge0$ with support $0\le i<N=48$. Let $s=\sum_i w_i(y_i^{(v)})^2$ and $v_i=\sqrt{w_i}\,y_i^{(v)}/\sqrt{s}$. It checks the infinite residual of $v$ at its Rayleigh quotient $\rho_v$ by exact matrix entries through $i<2N$, and for $i\ge2N$ uses $|(Av)_i|\le5\sum y_j^{(v)}/(i^2\sqrt{w_i s})$. Its residual is less than $1/1500$; the compression bound isolates the top eigenvalue and gives $\|z-v\|<1/200$. It also certifies $25/19<\rho<500/379$, $z_0^2>4/5$, $c_1>11/10$, and $z_0z_1/\sqrt3>9/50$ using this distance and $\|\mathcal A(e_1)\|\le2$.
+
+For each $i\ne m$, write $l=|i-m|$, $h=i+m+1$. Then $\Delta_{im}\le0$ and its magnitude in units $\epsilon/\sqrt{w_iw_m}$ is bounded by
+\[
+ D_l^*+D_h^*+A_*(l^{-2}+h^{-2})\frac{b_i+b_m}{1+\sqrt{(1-b_i/100)_+(1-b_m/100)_+}}.
+\]
+This follows by rationalizing $1-\sqrt{q_iq_m}$ and using \eqref{eq:weight}. In units $\epsilon/w_i$, the signed diagonal is between $-D_{w_i}^*-2A_*b_i/w_i^2$ and
+\[
+ 2\sum_{j\le i}D_j^*+A_*[\zeta_2+1/(2w_i^2)]w_i+
+ \begin{cases}A_*^2\zeta_4,&i=0,\\2A_*^2\zeta_2^2,&i>0.\end{cases}
+\]
+For the $H_m$ term in $b_m$, use $\sum_{m>0}(m^{-2}-(m+1)^{-2})H_m=\zeta_4$ at $i=0$ by telescoping, or $H_m\le\zeta_2$ and $\sum_{m\ne i}P^0_{im}\le2A_*\zeta_2$ otherwise. These row bounds enclose $\Delta v$ up to $2N$, including signed diagonal cancellation. For $i\ge2N$, $m<N$ implies $l\ge i/2$, $h\ge i$, giving $|\Delta v_i|/\epsilon\le5[D_1^*+2A_*(23/30)]\sum y_j^{(v)}/(i^2\sqrt{w_i s})$ times $w_i$. With $w_i\le3i$, its squared tail is bounded using $\sum_{i\ge2N}i^{-3}\le1/[2(2N-1)^2]$. The replay checks that the total norm plus $19\epsilon/200$ is less than $7\epsilon$.
+
+For the Rayleigh contraction, at least $4q_0^2$ of the $j=1$ shift norm comes from crossing the origin, and $q_0\ge1-\epsilon/2$ since $J_0\le0$. Consequently $K_1^0-K_1>(19/4)\epsilon\alpha^2$, and the nonnegative $c_j$ bound the full transfer contraction above by $-(209/40)\epsilon\alpha^2$. The weight contribution on the diagonal is bounded in units $\epsilon$ by
+\[
+ \alpha(\zeta_2+1/2-89/100)+\alpha^2\zeta_4\quad (i=0),\qquad
+ \alpha(\zeta_2+1/18)+(2/3)\alpha^2\zeta_2^2\quad (i>0).
+\]
+These follow by using $1-q_m\le\epsilon(w_m/2+\alpha H_m)$ and the two row-sum estimates above. At $i=0$ keep the negative term $-2K_1(1-q_0)$: $K_1>(93/100)\alpha$ from the shift upper bound $8j$, and $1-q_0\ge(12/25)\epsilon$ because $J_0\ge-(52/15)\epsilon$ by the adjacent bound and $1-t(x)\ge x/2-x^2/8$ for $x\ge0$. With $z_0^2>4/5$ the diagonal contraction is at most $\epsilon[(137/100)\alpha+(63/50)\alpha^2]$. All off-diagonal weight changes are nonpositive. Keep the two $(0,1)$ entries: $w_1+J_1\ge3-A_*/9$ gives $1-q_1\ge(7/5)\epsilon$, and $K_2>(6/25)\alpha$ from $\|Q-S_2Q\|^2\le16$. By the arithmetic-geometric mean their contraction subtracts at least $(39/100)\alpha\epsilon$, using $z_0z_1/\sqrt3>9/50$. Hence
+\[
+ \langle z,\Delta z\rangle\le\epsilon F(\alpha),\qquad F(\alpha)=(98/100)\alpha-(793/200)\alpha^2.
+\]
+The spectral gap of $\alpha A$ is at least $g=\alpha(\rho-1/10)$. Decompose a unit vector along $z$ and its complement. The cross term is bounded by $2\|\Delta z\|$ times the product of their norms; the loss in the complement coefficient is at most $26\epsilon$. Completing the square gives
+\[
+ \sup\spec S\le \alpha/\kappa+\epsilon F(\alpha)+\frac{49\epsilon^2}{g-26\epsilon}
+\]
+when the denominator is positive. For $\epsilon\le1/180$, if $\alpha\le11/20$, use $\alpha/\kappa+19\epsilon<1$. For $11/20\le\alpha\le37/50$, use $F<0$ and bound the gap below at the lower endpoint and $\alpha/\kappa$ above at the upper endpoint. For $\alpha\ge37/50$, $F$ decreases and \eqref{eq:mass} gives $\alpha/\kappa\le1+(101/100)\epsilon$. The replay checks that the coefficient of $\epsilon$ in the resulting upper bound is strictly negative. This completes the unbounded-width exclusion.
+
+\section{Interval exclusion on the finite strip}\label{app:cover}
+The interval calculation consists of inclusions that every causal normal state must satisfy. In particular, it does not assume that the response to a change in $a$ is single-valued. Each rectangular cell in $(\sigma,p)$ denotes all possible points in that cell. Positivity of the static term confines the range to $p\le2m_{\mathrm{cap}}\sigma$, where $m_{\mathrm{cap}}=4.046104720>16\kappa/3$. Write $h_{\max}(w)=\min\{w^{-1},q_{\max}/\sigma_{\rm lo}\}$, with $q_{\max}=(1+(p/\sigma)_{\rm hi}/4)^{1/2}$. If $p_{\rm hi}q_{\max}<4$, then the folded normal increment argument of Appendix~\ref{app:wide}, first with $q_{\max}$ and then with 1, proves that $q_n$ is decreasing, $q_n\le1$, and $0\le h_i-h_{i+j}\le j(1+p_{\rm hi}/2)/\sigma_{\rm lo}^2$. Use $q_{\max}=1$ in this case.
+
+Bound $|J_i|$ by $R=(5/6)p_{\rm hi}q_{\max}$. The positive root for $h_i$ gives $t((w_i+R)/\sigma_{\rm hi})/\sigma_{\rm hi}$ as a lower bound, or equivalently $2/(\sqrt{(w_i+R)^2+4\sigma_{\rm hi}^2}+w_i+R)$. To bound the omitted mass from below, start the midpoint sum of $t^2$ at $x=(2N+R)/\sigma_{\rm lo}$. The primitive integral from $x$ to infinity is $t(x)+t(x)^3/3$. The midpoint error gives
+\[
+ \sum_{i\ge N}h_i^2\ \ge\
+ \frac{\big[t(x)+t(x)^3/3-1/(2\sigma_{\rm lo}^2)\big]_+}{2\sigma_{\rm hi}} .
+\]
+For example, pointwise this follows by applying the midpoint estimate at the actual width to the root with the common $R$, then bounding its primitive and error with $\sigma_{\rm lo}$ and its prefactor with $\sigma_{\rm hi}$. A cell can be discarded if the static mass lower bound exceeds $m_{\rm cap}$.
+
+At each refinement, enclose the entire full-line signed shift norm using
+\[
+ \|H-S_jH\|^2=\sum_{i=0}^{j-1}(h_i+h_{j-1-i})^2+2\sum_{i\ge0}(h_i-h_{i+j})^2 .
+\]
+The unrepresented part of the second sum without its factor two is bounded by $\sum_{i\ge N-j}w_i^{-2}$. In monotone cells a second upper bound is $j\,h_{\max}(w_{N-j})\min\{h_{\max}(w_{N-j}),j(1+p_{\rm hi}/2)/\sigma_{\rm lo}^2\}$, by telescoping. For endpoints $L,U$ of the whole norm and $x_{\rm lo}\le p/\sigma\le x_{\rm hi}$, one obtains
+\[
+ \frac1{4j^2+x_{\rm hi}+B_{\rm hi}U}\le d_j
+ \le\frac1{4j^2+x_{\rm lo}+B_{\rm lo}L}.
+\]
+The multiplier is $B$ at $r=2$, not $2B$: the sign crossing is already counted in the folded norm. For instance for $h=(1,0,0,\ldots)$ the $j=1$ overlap difference on the full line is $2-(-1)=3$, and its shift norm squared is $6$. At $p/\sigma=2$, $B=3$, both formulas give the same $d_1=1/24$. The universal lower bound $[4j^2+p/\sigma+8m_{\rm cap}]^{-1}$ follows from $\|H-S_jH\|^2\le4\|H\|^2$ and the mass bound. After transfer refinement, insert the updated transfer intervals in the folded normal equation before intersecting the electron intervals. The omitted upper sum in each normal row, with $v=N-i$, is bounded by
+\[
+ \frac{B_{\rm hi}h_{\max}(w_N)}{4}\min\{v^{-2}+v^{-1},w_i v^{-2}\}.
+\]
+It is nonnegative and follows from \eqref{eq:stiel}, either by dropping the second resolvent and integrating, or by telescoping the difference. These operations retain every fixed point.
+
+For pairing, express \eqref{eq:pair} in terms of $h,d,B$. On the head $0\le i<k$, bound the positive terms by upper endpoints and the negative normal terms by lower endpoints, dropping only the negative terms with $m\ge N$. On the tail $i\ge k$, positive Schur weights $\sqrt{h_i/w_i}$ bound its spectral top by
+\[
+ t_{\rm tail}=\frac{B_{\rm hi} h_{\max}(w_k)}{w_k}
+          \left(\frac56+\frac1{4w_k^2}\right).
+\]
+Indeed each positive transfer contributes at most twice per folded row, with an extra diagonal Hankel term. The squared coupling norm from head row $i$ to the tail is at most
+\[
+ b_i^2=\frac{B_{\rm hi}^2\,\overline h_i h_{\max}(w_k)}{4w_iw_k}
+         \left(\frac1{(k-i)^4}+\frac1{3(k-i)^3}\right).
+\]
+Here $d_{j-i}+d_{j+i+1}\le1/[2(j-i)^2]$ for $j\ge k$, and the tail is bounded by its first term plus an integral. If $t_{\rm tail}<1$, add the rank-one majorant $b_i b_j/(1-t_{\rm tail})$ to the head upper matrix to account for the Schur complement of $I-S$. A strictly positive vector with all weighted row sums of the corrected head less than one certifies strict positivity of that Schur complement; the head has nonnegative off-diagonal entries, and the diagonal retains its sign. The vector is merely a trial and every row inequality is checked outward. An unresolved cell is split, not accepted.
+
+\begin{center}
+\begin{tabular}{ccrrr}
+\toprule
+Width interval & $p$ cap & Mass excluded & Weak bound & Pairing excluded\\
+\midrule
+$[15/32,4]$ & $33$   & 35   & 3 & 35\\
+$[4,16]$ & $130$     & 98   & 0 & 163\\
+$[16,40]$ & $324$    & 235  & 0 & 381\\
+$[40,100]$ & $810$   & 647  & 0 & 1155\\
+$[100,180]$ & $1457$ & 1050 & 0 & 1592\\
+\bottomrule
+\end{tabular}
+\end{center}
+The replay verifies complete coverage on these five closed rectangles, with no empty leaves needed. The first two conservative mutations weaken the norm lower endpoint or enlarge the Schur correction and leave uncovered cells on a matched focused rectangle. The doubled-polarization mutation fails the independent full-line anchor. These checks are in addition to the mathematical derivation of the intervals, not a substitute for it.
+
+\section{Existence at each positive temperature}\label{app:exist}
+For sharpness it is enough to construct one centered normal state at each fixed $a,b,\tau,\Omega_0>0$. First use a symmetric flat probability band of half-width $W>0$ in the electronic Dyson equation instead of a point mass. At clamping parameter $\eta>0$, take as inputs even electronic spectral probability measures $\mu$ with density at most $1/(2W)$ and second moment at most $W^2/3+a(1/(2\sqrt{\eta})+\tau/\eta)$. This set is weakly compact and convex.
+
+Let $f_F$ be the Fermi occupation. The thermal bubble of an atomless input, obtained by subtracting the two fermionic resolvents before summation, is
+\[
+ \Pi(s)=2b\int_{x<y}
+     \frac{(y-x)\,[f_F(x)-f_F(y)]}{s+(y-x)^2}\,d\mu(x)d\mu(y),\qquad s=\nu^2.
+\]
+At $s=0$ the symmetric difference quotient extends continuously to the diagonal, with value $-f_F'(x)$. In particular $0\le\Pi(0)\le b/(4\tau)$. Put $\delta=\max\{\Omega_0^2-\Pi(0),\eta\}$ and define $D(s)=[s+\delta+\Pi(0)-\Pi(s)]^{-1}$. This is Stieltjes: its denominator has positive imaginary part in the upper half-plane, is positive on the positive real axis, and its reciprocal decays as $1/s$. The Herglotz representation of the negative reciprocal is then supported on the nonpositive axis. The oscillator measure $d\sigma_D(\Omega)$ in $D(s)=\int d\sigma_D(\Omega)/(s+\Omega^2)$ has mass one and $\int\Omega^{-2}d\sigma_D=1/\delta$.
+
+The causal normal self-energy used in the map is, with $n_B$ the Bose occupation and $d\rho_+=d\sigma_D/(2\Omega)$,
+\[
+ \Sigma(z)=a\int d\mu(x)\,d\rho_+(\Omega)
+   \left(\frac{n_B(\Omega)+1-f_F(x)}{z-x-\Omega}
+          +\frac{n_B(\Omega)+f_F(x)}{z-x+\Omega}\right).
+\]
+Partial fractions in the bosonic Matsubara sum give this identity with the positive coordinate convention of \eqref{eq:saddle}. Its spectral weight is at most $a(1/(2\sqrt{\eta})+\tau/\eta)$, using $n_B(\Omega)\le\tau/\Omega$. The output probability measure is the resolvent of the flat band at $z-\Sigma(z)$; its density remains bounded by the band height by the Poisson integral. It is even and its second moment is the bare band variance plus the self-energy weight, by the imaginary-axis expansion and monotone convergence. This maps the stated convex set to itself. The bubble at positive $s$ and at zero is weakly continuous, the latter using the continuous symmetric quotient. Its phonon measures are tight (their second moments are bounded by $\delta+\Pi(0)$), and they vary weakly continuously by uniqueness of their Stieltjes transform. Along a convergent sequence the integrals $\int\Omega^{-2}d\sigma_D=1/\delta$ converge as well, so truncating $\Omega^{-2}$ gives uniform integrability at zero. The self-energy kernel against $d\sigma_D$ is bounded by a constant times $\Omega^{-1}+\Omega^{-2}$ for fixed $\Im z>0$. Thus the map is continuous, and the compact convex fixed-point theorem gives a centered normal fixed point.
+
+As $\eta$ tends to zero the clamping cannot remain active. On the flat band the folded normal equation gives $u_n\ge\omega_n+a\tau(D_0-D_{2n+1})(-\Im G_n)$, where $u_n=\omega_n-\Im\Sigma_n$. Also $|G_n|^2\le(-\Im G_n)/u_n$ by Cauchy--Schwarz over the probability band. If $D_0$ diverged, these would force $|G_n|\to0$ at each frequency, since $D_{2n+1}\le\nu_{2n+1}^{-2}$. The causal free-frequency envelope is square summable, so $\Pi(0)\to0$. Active clamping requires instead $D_0=1/\eta$ and $\Pi(0)\ge\Omega_0^2-\eta$. The same bounds show that on unclamped solutions $D_0$ stays bounded uniformly in $W$; otherwise $D_0^{-1}=\Omega_0^2-\Pi(0)$ leads to the same contradiction.
+
+Now take $W\downarrow0$ along a weakly convergent subsequence of the electron and phonon measures (the variance bounds are uniform). At positive transfer the limiting bubble remains given by its integral over $x<y$. At zero, allowing atoms in the symmetric continuous quotient adds an elastic weight $b\sum_x\mu(\{x\})^2[-f_F'(x)]$ to its static value. The inverse phonon susceptibility remains strictly positive by the uniform $D_0$ bound. The weak limit of the weighted measures $\Omega^{-2}d\sigma_D$ has an atom at zero of mass $e=D_0-D_+(0)\ge0$, where $D_+$ is the Stieltjes part obtained from the nonelastic bubble. This follows by convergence of the weighted measure on the open positive axis and of its total mass, with tail bounded by $L^{-2}$ on $\Omega>L$. In the self-energy the kernel against that weighted measure extends to zero as $\tau/(z-x)$; the tail at infinity vanishes uniformly by its $O(\Omega)$ bound and the unweighted unit mass. Therefore the limiting normal Dyson equation uses the atom only through a causal self-energy term $a\tau e\,G(z)$ in addition to the nonelastic self-energy. For $e>0$ the limiting point-band equation $G=(z-\Sigma)^{-1}$ would imply
+\[
+ 0<-\Im G(z)\le \frac1{\Im(z-\Sigma(z))}
+              \le \frac1{a\tau e[-\Im G(z)]}.
+\]
+The resulting uniform bound on $-\Im G$ excludes atoms of $\mu$. But $e>0$ requires a positive elastic weight and hence such an atom. Thus $e=0$ and the limit is an eligible causal dot state with the prescribed bare parameters. No uniqueness claim is needed.
+
+\section*{Scope and reproducibility}
+The plateau is a result about the centered normal equations, with no modification of their dynamical polarization. It can bound an equilibrium critical temperature only when that transition is continuous out of an eligible normal state. Recent spectral work on the conformal dot and near-critical related models \cite{SS,DK} addresses a different regime; we do not use it to infer an all-coupling bound. The replay supplement, \DOTSUPPDOI, contains the finite inequalities, exact variants of the normalization and weak guards, and the separate infinite-tail enclosure of $C_\infty$. The precise theorem is in terms of the spectral constant even without its numerical enclosure. The source mirror is \DOTREPO, and the paper record is \DOTDOI.
+
+\bibliographystyle{plain}
+\bibliography{refs}
+\end{document}
